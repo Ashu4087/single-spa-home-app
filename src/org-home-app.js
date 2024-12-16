@@ -1,22 +1,23 @@
-// import singleSpaSvelte from "single-spa-svelte";
-// import App from "./App.svelte";
-
-// const svelteLifecycles = singleSpaSvelte({
-//   component: App,
-// });
-
-// export const { bootstrap, mount, unmount } = svelteLifecycles;
-
 import singleSpaSvelte from "single-spa-svelte";
 import App from "./App.svelte";
 
-console.log("loads home mfe");
+
+console.log("Home app loaded!");
 
 const svelteLifecycles = singleSpaSvelte({
   component: App,
-  domElementGetter: () => document.getElementById("home-app"), // Ensure a unique DOM element
+  domElementGetter: () => {
+    let el = document.getElementById("home-app");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "home-app";
+      document.body.appendChild(el);
+    }
+    return el;
+  },
 });
 
 export const bootstrap = svelteLifecycles.bootstrap;
 export const mount = svelteLifecycles.mount;
 export const unmount = svelteLifecycles.unmount;
+
